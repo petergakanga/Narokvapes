@@ -49,19 +49,25 @@
     --muted:#8A8A8E;
     --border:#ECECEE;
     --wa:#25D366;
+    --content-max:480px;
+    --grid-cols:2;
   }
   *{box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent;}
+  html{width:100%; overflow-x:hidden;}
   body{
     font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     background:var(--bg);
     color:var(--text);
-    max-width:480px;
+    width:100%;
+    max-width:var(--content-max);
     margin:0 auto;
     min-height:100vh;
     display:flex;
     flex-direction:column;
     -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
   }
+  img{max-width:100%; display:block;}
 
   /* ===== Header ===== */
   .header{
@@ -285,7 +291,7 @@
   /* ===== Product grid ===== */
   .grid{
     display:grid;
-    grid-template-columns:1fr 1fr;
+    grid-template-columns:repeat(var(--grid-cols), 1fr);
     gap:12px;
     padding:0 14px 20px;
   }
@@ -347,7 +353,7 @@
   .detail-page{
     position:fixed;
     inset:0;
-    max-width:480px;
+    max-width:var(--content-max);
     margin:0 auto;
     background:#fff;
     z-index:100;
@@ -826,6 +832,56 @@
   }
   .age-gate-yes{background:linear-gradient(180deg,#FF7A1A,#FF5C00); color:#fff;}
   .age-gate-no{background:var(--bg); color:#555;}
+
+  /* ===== Responsive breakpoints ===== */
+
+  /* Small phones (narrow screens, e.g. iPhone SE) — tighten up spacing/type
+     so nothing overflows or feels cramped. */
+  @media (max-width:360px){
+    .header{padding:12px 12px 6px;}
+    .logo{font-size:19px;}
+    .searchwrap, .chips{padding-left:12px; padding-right:12px;}
+    .hero{margin:0 12px 14px; height:140px;}
+    .hero-caption .title{font-size:15px;}
+    .grid{padding-left:12px; padding-right:12px; gap:9px;}
+    .product-info .title{font-size:12px;}
+    .product-info .price{font-size:13.5px;}
+    .footer{padding:26px 14px 16px;}
+    .footer-cols{gap:18px 10px;}
+  }
+
+  /* Tablets and larger phones in landscape — give the layout room to
+     breathe: a 3-column grid and a taller hero banner. */
+  @media (min-width:600px){
+    :root{--content-max:640px; --grid-cols:3;}
+    .hero{height:220px;}
+    .sheet-img-wrap{height:320px;}
+    .footer-cols{grid-template-columns:repeat(4,1fr);}
+  }
+
+  /* Small desktop / large tablet — widen the content column further and
+     add a 4th grid column. */
+  @media (min-width:900px){
+    :root{--content-max:900px; --grid-cols:4;}
+    .hero{height:260px;}
+    .sheet-img-wrap{height:360px;}
+  }
+
+  /* Desktop — cap the content width so the store doesn't stretch into an
+     uncomfortably wide single column, but allow a 5th product column. */
+  @media (min-width:1200px){
+    :root{--content-max:1100px; --grid-cols:5;}
+  }
+
+  /* Keep the floating WhatsApp button anchored to the visible viewport
+     edge (not the centered content column) once the layout is wide
+     enough that the two diverge. */
+  @media (min-width:900px) and (max-width:1199px){
+    .wa-float{right:max(16px, calc(50vw - 450px + 16px));}
+  }
+  @media (min-width:1200px){
+    .wa-float{right:max(16px, calc(50vw - 550px + 16px));}
+  }
 </style>
 </head>
 <body>
